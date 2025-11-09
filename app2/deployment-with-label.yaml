@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   # Deployment의 이름
-  name: nginx-deployment-no-label
+  name: nginx-deployment-with-label
 spec:
   replicas: 1
   selector:
@@ -13,7 +13,6 @@ spec:
   template:
     metadata:
       # Pod 템플릿의 레이블입니다.
-      # 'app' 레이블이 없습니다.
       labels:
         run: nginx
         app: nginx
