@@ -1,0 +1,21 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-labels
+spec:
+  # 'Enforce' 모드는 위반 시 요청을 차단합니다. ('Audit' 모드는 위반을 기록만 함)
+  validationFailureAction: Enforce
+  rules:
+    - name: check-for-labels
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+      validate:
+        message: "Pod에는 'app' 레이블이 반드시 필요합니다."
+        pattern:
+          metadata:
+            labels:
+              # '?' 와일드카드는 'app' 키가 존재하기만 하면 됨을 의미합니다.
+              app: "?*"

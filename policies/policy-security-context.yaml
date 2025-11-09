@@ -1,0 +1,21 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-safe-security-context
+spec:
+  rules:
+    - name: add-runasnonroot
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+      mutate:
+        patchStrategicMerge:
+          spec:
+            securityContext:
+              # Pod 레벨에서 non-root로 실행하도록 설정
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 3000
+              fsGroup: 2000
